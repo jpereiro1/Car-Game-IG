@@ -173,21 +173,21 @@ async function init(){
     const loader = new FBXLoader();
     try {
         await Promise.all([
-            loadCar(loader, '/public/car_red.fbx','normal_car'),
-            loadCar(loader, '/public/Taxi.fbx','taxi'),
-            loadCar(loader, '/public/Police.fbx','police'),
-            loadCar(loader, '/public/pickup.fbx','pickup'),
-            loadModel(loader, '/public/tree.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(2.5, 0, 0),false),
-            loadModel(loader, '/public/tree2.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(3.5, 0, 0),true),
-            loadModel(loader, '/public/Bus_Stop.fbx', 0.2,[0,0,0], new THREE.Vector3(2, 0, 0),false),
-            loadModel(loader, '/public/fence.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(-1.2, 0, 0),true),
-            loadModel(loader, '/public/big_road_sing.fbx', 0.25,[0,+Math.PI/2,0], new THREE.Vector3(0, 0, 0),false),
-            loadModel(loader, '/public/building.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(6, 0, 0),false),
-            loadSignals(loader, '/public/40_speed_sign.fbx'),
-            loadSignals(loader, '/public/60_speed_sign.fbx'),
-            loadSignals(loader, '/public/80_speed_sign.fbx'),
-            loadSignals(loader, '/public/100_speed_sign.fbx'),
-            loadStreetLight(loader, '/public/streetlight.fbx',[0,+Math.PI/2,0] , new THREE.Vector3(1.5, 0, -0.5),true,new THREE.SpotLight(0xffffff,100))
+            loadCar(loader, './public/car_red.fbx','normal_car'),
+            loadCar(loader, './public/Taxi.fbx','taxi'),
+            loadCar(loader, './public/Police.fbx','police'),
+            loadCar(loader, './public/pickup.fbx','pickup'),
+            loadModel(loader, './public/tree.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(2.5, 0, 0),false),
+            loadModel(loader, './public/tree2.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(3.5, 0, 0),true),
+            loadModel(loader, './public/Bus_Stop.fbx', 0.2,[0,0,0], new THREE.Vector3(2, 0, 0),false),
+            loadModel(loader, './public/fence.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(-1.2, 0, 0),true),
+            loadModel(loader, './public/big_road_sing.fbx', 0.25,[0,+Math.PI/2,0], new THREE.Vector3(0, 0, 0),false),
+            loadModel(loader, './public/building.fbx', 0.2,[0,+Math.PI/2,0], new THREE.Vector3(6, 0, 0),false),
+            loadSignals(loader, './public/40_speed_sign.fbx'),
+            loadSignals(loader, './public/60_speed_sign.fbx'),
+            loadSignals(loader, './public/80_speed_sign.fbx'),
+            loadSignals(loader, './public/100_speed_sign.fbx'),
+            loadStreetLight(loader, './public/streetlight.fbx',[0,+Math.PI/2,0] , new THREE.Vector3(1.5, 0, -0.5),true,new THREE.SpotLight(0xffffff,100))
         ]);
         modelsLoaded = true;
         console.log("Models loaded successfully");
