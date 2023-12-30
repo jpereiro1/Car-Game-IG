@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import Stats from 'three/examples/jsm/libs/stats.module'
-import { addListeners, getMovementCar  } from '/js/eventListeners.js';
+import { addListeners, getMovementCar  } from './js/eventListeners.js';
 
 
 
