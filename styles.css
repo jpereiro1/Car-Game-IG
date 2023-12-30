@@ -21,7 +21,7 @@ button{
 html{
     height: 100%;
     width: 100%;
-    background-image: url('/public/background_menu.png');
+    background-image: url('./public/background_menu.png');
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
