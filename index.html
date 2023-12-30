@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+        <title>Car Game IG</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+        <script type="importmap">
+          {
+            "imports": {
+              "three": "https://unpkg.com/three@0.152.1/build/three.module.js",  
+              "three/": "https://cdn.skypack.dev/three@0.152.1/",
+              "three/addons/": "./jsm/"
+            }
+          }
+        </script>
+        <script type="module" src="/game.js"></script>
+    </head>
+    <body>
+      <div id="instructionsSection">
+        <div id="divButtonLeaveInstructions">
+          <button id="buttonLeaveInstructions">
+            <span class="material-symbols-outlined">
+              close
+              </span>
+          </button>
+        </div>
+        <h2>Instrucciones para jugar</h2>
+        <h3>Objetivo del juego</h3>
+        <p>El objetivo es conseguir la máxima puntuación posible sin chocarse con la furgoneta</p>
+        <h3>¿Como se juega?</h3>
+        <p>Con el móvil podrás usar la pantalla táctil para moverte de izquierda y derecha</p>
+        <p>Mientrás que con el ordenador utilizarás las flechas <- y -></p>
+      </div>
+      <div id="menu">
+        <div id="instructions">
+          <button id="buttonInstructions">
+            <span class="material-symbols-outlined">
+              info
+              </span>
+          </button>
+          
+        </div>
+        <h1>Car Game IG</h1>
+        <h2>Selecciona tu coche:</h2>
+        <section>
+          <div class="option">
+            <label for="normal_car">
+              <input type="radio" id="normal_car" name="car" value="normal_car" checked>
+              <img class="imgOption" src="/public/Normal_Car.png">
+            </label>
+          </div>
+          <div class="option">
+            <label for="police">
+              <input type="radio" id="police" name="car" value="police">
+              <img class="imgOption" src="/public/Police.png">
+            </label>
+          </div>
+          <div class="option">
+            <label for="taxi">   
+              <input type="radio" id="taxi" name="car" value="taxi">       
+              <img class="imgOption" src="/public/Taxi.png">
+            </label>
+          </div>
+        </section>
+        <h2>Selecciona la hora de juego:</h2>
+        <section>
+          <div class="option">
+            <label for="day">
+              <input type="radio" id="day" name="time" value="day" checked>
+              <img class="imgOption" src="/public/day.png">
+            </label>
+          </div>
+          <div class="option">
+            <label for="night">
+              <input type="radio" id="night" name="time" value="night">
+              <img class="imgOption" src="/public/night.png">
+            </label>
+          </div>
+        </section>
+        <button id="startGame">Comenzar</button>
+      </div>
+      <p id="score"></p>
+      <div id="endGame">
+        <h2>CRASH</h2>
+        <h3>Su puntuación es:</h3>
+        <p id="scoreEndGame"></p>
+        <button id="restartGame">¿Volver a jugar?</button>
+      </div>
+      
+    </body>
+</html>
