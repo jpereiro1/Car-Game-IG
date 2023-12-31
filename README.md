@@ -3,7 +3,7 @@
 Práctica final/opcional de la asignatura de Informática Gráfica del Grado de Ingeniería Informática de la ULPGC. Se trata de un juego muy básico implementado con three.js.
 
 ## Objetivo del juego
-En el juego tendremos que conducir un vehículo por una carretera, durante el trayecto, el límite de velocidad irá cambiando, haciendo ir nuestro coche más rápido o lento. El principal objetivo del juego consiste en alcanzar la máxima puntuación posible sin chocarse con la furgoneta.
+En el juego tendremos que conducir un vehículo por una carretera, durante el trayecto, el límite de velocidad irá cambiando, haciendo ir a nuestro coche más rápido o o más lento. El principal objetivo del juego consiste en alcanzar la máxima puntuación posible sin chocarse con la furgoneta.
 
 ## Para jugar
 Para jugar tendrá que acceder al siguiente [Link](https://jpereiro1.github.io/Car-Game-IG/ "enlace"). Los controles para desplazarte de lado a lado y cambiarte de carril son:
