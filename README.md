@@ -11,6 +11,7 @@ Para jugar tendrá que acceder al siguiente [Link](https://jpereiro1.github.io/C
     Flechas <- y ->
 ### Para el móvil
     Pantalla táctil ( parte de la izquierda de la pantalla y parte derecha de la pantalla )
+![imágen](/public/readmeImage0.png)
 
 # Creación del juego
 
@@ -34,7 +35,8 @@ Uso las siguientes luces:
 - Una luz hemisferio: Con esta luz consigo simular el día o la noche.
 - Una luz direccional: El objetivo es añadirle una sombra a los objetos y simular el sol.
 - Luces spot para farolas: Estas luces irán en los postes de luz para iluminar las señales cuando se juegue de noche (SOLO NOCHE)
-- Luces spot para el coche: Estas luces irán en frente del coche para simular los faros del mismo.
+- Luces spot para el coche: Estas luces irán en frente del coche para simular los faros del mismo (SOLO NOCHE).
+![imágen](/public/readmeImage3.png)
 
 ## Composición de la escena
 La escena como la verá el jugador está compuesta por una cámara que se encuentra detrás y un pelín más alto que nuestro vehículo. Además, se le ha añadido una niebla del mismo color que el fondo para así no ver el final del plano y simular un horizonte. Por último, tenemos el sol o luna que estará en la diagonal con la luz direccional que simulará el sol.
@@ -42,7 +44,7 @@ La escena como la verá el jugador está compuesta por una cámara que se encuen
 
 ## De noche
 Para el juego de noche oscurecemos el fondo y la niebla, bajamos la intensidad de la luz hemisferio y apagamos la luz direccional. Cuando mostramos las señales de tráfico a estas se les añade unas farolas con luces de tipo spot para conseguir visualizarlas. El coche se le añaden dos luces spots que se irán desplazando de derecha a izquierda junto con el coche.
-![imágen](/public/readmeImage2.png.png)
+![imágen](/public/readmeImage2.png)
 
 
 ## Los modelos 3d
@@ -50,6 +52,7 @@ Para los modelos 3d existentes en la escena, he usado un asset pack de una ciuda
 - Coches (furgoneta, taxi, coche, coche de policía)
 - Objetos de decoración (arboles, parada de bus, una casa...)
 - Señales de límite de velocidad (40, 60, 80, 100km/h). Para estas señales he tenido que añadir un texto spline con una extrusión para escribir los números.
+![imágen](/public/readmeImage4.png)
 
 # Estimación de tiempo y complicaciones
 Teniendo algunos conocimientos en three.js calculo que este proyecto me ha llevado unas 15 horas aproximadamente. Algunas complicaciones que he tenido han sido con los modelos 3d y el programa Maxon Cinema 4D con el que no estaba muy familiarizado.  
@@ -59,4 +62,5 @@ Posibles implementaciones para mejorar el juego:
 - Añadir mas complicaciones al mismo, ej: Añadir más vehículos u otros obstaculos.
 - Añadir luces al vehiculo por dentro. (Para la noche).
 - Añadir más carriles.
+- Añadir otra cámara de primera persona (muy fácil de implementar)
 - Añadir una lógica del juego más compleja. Ej: que haya un orden de cambio de velocidad y que no sea aleatorio, para ir ajustando la dificultad del juego de una manera incremental.
