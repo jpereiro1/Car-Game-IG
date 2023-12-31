@@ -8,10 +8,10 @@ En el juego tendremos que conducir un vehículo por una carretera, durante el tr
 ## Para jugar
 Para jugar tendrá que acceder al siguiente [Link](https://jpereiro1.github.io/Car-Game-IG/ "enlace"). Los controles para desplazarte de lado a lado y cambiarte de carril son:
 ### Para el ordenador
-    Flechas <- y ->
+Flechas <- y ->
 ### Para el móvil
-    Pantalla táctil ( parte de la izquierda de la pantalla y parte derecha de la pantalla )
-    
+Pantalla táctil ( parte de la izquierda de la pantalla y parte derecha de la pantalla )
+
 ![imágen](/public/readmeImage0.png)
 
 # Creación del juego
