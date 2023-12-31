@@ -11,12 +11,15 @@ Para jugar tendrá que acceder al siguiente [Link](https://jpereiro1.github.io/C
     Flechas <- y ->
 ### Para el móvil
     Pantalla táctil ( parte de la izquierda de la pantalla y parte derecha de la pantalla )
+    
 ![imágen](/public/readmeImage0.png)
 
 # Creación del juego
 
 ## Creación del escenario
-Para el suelo del escenario uso la PlaneGeometry de three.js, de esta manera contruyo el suelo (simulando un prado), la carretera de color más oscuro, y las líneas que conforman la carretera. En la siguiente ![imágen](/public/readmeImage1.png) podemos ver la composición de la escena desde otro ángulo.
+Para el suelo del escenario uso la PlaneGeometry de three.js, de esta manera contruyo el suelo (simulando un prado), la carretera de color más oscuro, y las líneas que conforman la carretera. En la siguiente podemos ver la composición de la escena desde otro ángulo (el cúal no es la cámara principal del juego).
+
+![imágen](/public/readmeImage1.png)
 
 ## Mecánica de los objetos
 Los objetos se mueven por el eje z, se crean al final de la carretera (en frente de nuestro vehículo) y se borran cuando pasan nuestro vehículo y se salen del plano (suelo). La velocidad de los objetos cambia dependiendo del tramo con el límite de velocidad en el que estemos, nuestro vehículo (el cual está estático en el eje z) irá visualizando como se le acercan los objetos, de esta manera, le añadimos una veracidad a la circulación y a la velocidad de la escena.
@@ -36,14 +39,17 @@ Uso las siguientes luces:
 - Una luz direccional: El objetivo es añadirle una sombra a los objetos y simular el sol.
 - Luces spot para farolas: Estas luces irán en los postes de luz para iluminar las señales cuando se juegue de noche (SOLO NOCHE)
 - Luces spot para el coche: Estas luces irán en frente del coche para simular los faros del mismo (SOLO NOCHE).
+
 ![imágen](/public/readmeImage3.png)
 
 ## Composición de la escena
 La escena como la verá el jugador está compuesta por una cámara que se encuentra detrás y un pelín más alto que nuestro vehículo. Además, se le ha añadido una niebla del mismo color que el fondo para así no ver el final del plano y simular un horizonte. Por último, tenemos el sol o luna que estará en la diagonal con la luz direccional que simulará el sol.
+
 ![imágen](/public/background_menu.png)
 
 ## De noche
 Para el juego de noche oscurecemos el fondo y la niebla, bajamos la intensidad de la luz hemisferio y apagamos la luz direccional. Cuando mostramos las señales de tráfico a estas se les añade unas farolas con luces de tipo spot para conseguir visualizarlas. El coche se le añaden dos luces spots que se irán desplazando de derecha a izquierda junto con el coche.
+
 ![imágen](/public/readmeImage2.png)
 
 
@@ -52,6 +58,7 @@ Para los modelos 3d existentes en la escena, he usado un asset pack de una ciuda
 - Coches (furgoneta, taxi, coche, coche de policía)
 - Objetos de decoración (arboles, parada de bus, una casa...)
 - Señales de límite de velocidad (40, 60, 80, 100km/h). Para estas señales he tenido que añadir un texto spline con una extrusión para escribir los números.
+
 ![imágen](/public/readmeImage4.png)
 
 # Estimación de tiempo y complicaciones
