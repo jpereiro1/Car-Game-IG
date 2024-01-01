@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import Stats from 'three/examples/jsm/libs/stats.module'
 import { addListeners, getMovementCar  } from './js/eventListeners.js';
+import TWEEN from 'three/examples/jsm/libs/tween.module.js';
 
 
 
@@ -60,6 +61,7 @@ function startAnimation(){
     //setInterval(throwRandomSignal,10000);
 
     requestAnimationFrame(animate);
+    startTween();
 
 }
 
@@ -88,8 +90,8 @@ function makeNight(){
     isNight = true;
     scene.background = new THREE.Color(0x001f3f);
     sunMoon.material = new THREE.MeshBasicMaterial({color:0x999999});
-    hemiLight.intensity = 0.005;
-    direcLight.intensity = 0;
+    hemiLight.intensity = 0.01;
+    direcLight.intensity = 0.1;
     scene.fog = new THREE.Fog( scene.background, 20, 50 );
 
     document.getElementById("score").style.color = 'white';
@@ -125,7 +127,7 @@ async function init(){
     scene.add(ambientLight);*/
     
 
-    hemiLight = new THREE.HemisphereLight( 0x87CEEB , 0xFFFFFF , 3 );
+    hemiLight = new THREE.HemisphereLight( 0x87CEEB , 0xFFFFFF , 10);
     hemiLight.color.setHSL( 0.6, 1, 0.6 );
     hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
     hemiLight.position.set( 0, 20, 0 );
@@ -190,6 +192,7 @@ async function init(){
             loadStreetLight(loader, './public/streetlight.fbx',[0,+Math.PI/2,0] , new THREE.Vector3(1.5, 0, -0.5),true,new THREE.SpotLight(0xffffff,100))
         ]);
         modelsLoaded = true;
+        initTween();
         console.log("Models loaded successfully");
     } catch (error) {
         console.error("Error loading models:", error);
@@ -307,9 +310,6 @@ function loadStreetLight(loader, path){
 }
 
 
-
-
-
 function loadModel(loader, path, scale,rotation, position,duplicate) {
     return new Promise((resolve, reject) => {
         loader.load(path, (model) => {
@@ -339,12 +339,88 @@ function loadModel(loader, path, scale,rotation, position,duplicate) {
     });
 }
 
+var tweenDecoration;
+function initTween(){
+
+    /*actualDecoration = decorationWithMovement[0];
+    actualDecoration.position.z = -45;
+
+    function updateDecoration() {
+        scene.remove(actualDecoration);
+        actualDecoration = decorationWithMovement[getRandomInt(0, decorationWithMovement.length)];
+        actualDecoration.position.z = -45;
+        console.log(actualDecoration);
+        scene.add(actualDecoration);
+        tweenDecoration.stop();
+        // Actualizar el destino del Tween con la nueva posición
+        tweenDecoration.to({z: limitViewZ}, (1/speed)*1000);
+        tweenDecoration.start();
+    }
+
+    tweenDecoration = new TWEEN.Tween(actualDecoration.position)
+        .onStart(() => {
+            scene.add(actualDecoration);
+        })
+        .onEveryStart(() => {
+            updateDecoration();
+        })
+        .onComplete(() => {
+            scene.remove(actualDecoration);
+            updateDecoration(); // Actualizar para la próxima iteración
+        }).dynamic(true)
+        .repeat(Infinity);
+
+    updateDecoration();*/
+    
+    
+    
+    /*actualDecoration = decorationWithMovement[0];
+    
+    actualDecoration.position.z = -45;
+    tweenDecoration = new TWEEN.Tween(actualDecoration.position)
+        .to({z:limitViewZ},(1/speed)*1000)
+        .onStart(() => {
+            scene.add(actualDecoration);
+        })
+        .onEveryStart(() => {
+            scene.remove(actualDecoration);
+            actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length)];
+            actualDecoration.position.z = -45;
+            console.log(actualDecoration);
+            scene.add(actualDecoration);
+        })
+        .onComplete(() => {
+            //scene.remove(actualDecoration);
+            
+            console.log(actualDecoration);
+            
+        })
+        .repeat(Infinity)
+        ;*/
+
+    /*if(actualDecoration?.parent !== scene){
+        actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length+1)];
+        try{
+            actualDecoration.position.z = -45;
+            scene.add(actualDecoration);
+            
+        }catch(err){
+            console.log("Error en decoracion");
+        }
+        
+    }*/
+}
+
+function startTween(){
+    //tweenDecoration.start();
+}
+
 
 function initDecoration(){
     
     //Background
     scene.background = new THREE.Color(0x87CEEB);
-	scene.fog = new THREE.Fog( scene.background, 20, 50 );
+	//scene.fog = new THREE.Fog( scene.background, 20, 50 );
 
     let geometry, material;
 
@@ -413,20 +489,15 @@ let maxLimitCarX = 0.5;
 
 
 function throwRandomSignal(){
-    actualSignal = signals[getRandomInt(0,signals.length+1)];
-    try{
-        actualSignal.position.z = -45;
-        if(isNight){
-            //console.log(streetlight);
-            streetlight.children[0].children[0].target = actualSignal.children[0];
-            streetlight.children[1].children[0].target = actualSignal.children[1];
-            actualSignal.add(streetlight);
-        }
-        scene.add(actualSignal);
-    }catch(err){
-        //console.log(err);
+    actualSignal = signals[getRandomInt(0,signals.length)];
+    actualSignal.position.z = -45;
+    if(isNight){
+        //console.log(streetlight);
+        streetlight.children[0].children[0].target = actualSignal.children[0];
+        streetlight.children[1].children[0].target = actualSignal.children[1];
+        actualSignal.add(streetlight);
     }
-    
+    scene.add(actualSignal);
 }
 
 
@@ -450,29 +521,33 @@ function animate(){
         }
     });
 
-    
 
-    //COCHE ENEMIGO
-    if(carEnemy==null){
+    if(carEnemy?.parent !== scene){
         carEnemy = cars.get("pickup");
         try{
             carEnemy.position.z = -50;
             getRandomInt(0,2)>0 ? carEnemy.position.x = 0.5 : carEnemy.position.x = -0.5;
             scene.add(carEnemy);
-        }catch(err){
+            new TWEEN.Tween(carEnemy.position)
+                .to(
+                    {z:limitViewZ+1},(1/speed)*1000
+                )
+                .onUpdate(() => {
+                    carMovementY(carEnemy);
+                    if(detectCollision(car,carEnemy)) endGame();
+                })
+                .onComplete(() => {
+                    scene.remove(carEnemy);
+                    carEnemy = null;
+                })
+                .start();
             
+        }catch(err){
+            console.log("Error en carEnemy");
         }
-    }else{
-        carEnemy.position.z += speed/1.5;
-        carMovementY(carEnemy);
-        if(detectCollision(car,carEnemy)) endGame();
-
-        if(carEnemy.position.z > limitViewZ){
-            scene.remove(carEnemy);
-            carEnemy = null;
-        }
-
     }
+
+
 
 
     carMovementY(car);
@@ -505,25 +580,26 @@ function animate(){
 
 
 
-    //Objetos de decoración
-    if(actualDecoration==null){
+
+    if(actualDecoration?.parent !== scene){
         actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length+1)];
         try{
             actualDecoration.position.z = -45;
             scene.add(actualDecoration);
+            new TWEEN.Tween(actualDecoration.position)
+            .to({z:limitViewZ},(1/speed)*1000)
+            .onComplete(() => {
+                scene.remove(actualDecoration);
+                actualDecoration = null;
+            }).dynamic(true)
+            .start();
         }catch(err){
-            //console.log(err);
-        }
-        
-    }else{
-        actualDecoration.position.z += speed;
-        if(actualDecoration.position.z > limitViewZ){
-            scene.remove(actualDecoration);
-            actualDecoration = null;
-        }
+            console.log(err);
+        } 
     }
 
     renderer.render(scene, camera);
+    TWEEN.update();
 }
 
 
