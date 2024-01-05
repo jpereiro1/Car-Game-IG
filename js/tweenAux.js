@@ -6,14 +6,16 @@ var startPositionZ = -45;
 
 var tweenDecoration;
 var tweenCarEnemy;
+var tweenCarEnemy2;
 var tweenSignals;
 
 
 export function startTween(scene,car,carEnemy,decorationWithMovement,signals,speed){
     console.log(signals);
     tweenDecoration = new TweenDecoration(scene,decorationWithMovement,speed);
-    tweenCarEnemy = new TweenCarEnemy(scene,carEnemy,speed,car);
-    tweenSignals = new TweenSignals(scene,signals,speed,car);
+    tweenCarEnemy = new TweenCarEnemy(scene,carEnemy,speed,car,0);
+    //tweenCarEnemy2 = new TweenCarEnemy(scene,carEnemy.clone(),speed,car,1000);
+    tweenSignals = new TweenSignals(scene,signals,speed,car,5000);
 }
 
 export function isEndGame(){
@@ -73,13 +75,14 @@ class TweenDecoration {
 
 class TweenCarEnemy {
 
-    constructor(scene,carEnemy,speed,car){
+    constructor(scene,carEnemy,speed,car,delay){
         this.scene = scene;
         this.carEnemy = carEnemy;
         this.car = car;
         this.speed = speed;
         this.tween;
         this.isEndGame = false;
+        this.delay = delay;
         this.newIteration();
     }
 
@@ -92,6 +95,7 @@ class TweenCarEnemy {
         .onUpdate(() => {
             carMovementY(this.carEnemy);
         })
+        .delay(this.delay)
         .onComplete(() => {
             this.scene.remove(this.carEnemy);
             this.newIteration();
@@ -104,8 +108,8 @@ class TweenCarEnemy {
         TWEEN.remove(this.tween);
         this.tween = new TWEEN.Tween(this.carEnemy.position)
         .to({z: limitViewZ}, ((1/this.speed)*2000)*positionPercentege(this.carEnemy.position.z))
-        .onStart(() => {
-            //this.scene.add(this.actualDecoration);
+        .onUpdate(() => {
+            carMovementY(this.carEnemy);
         })
         .onComplete(() => {
             this.scene.remove(this.carEnemy);
@@ -130,12 +134,13 @@ class TweenCarEnemy {
 
 class TweenSignals {
 
-    constructor(scene,signals,speed,car){
+    constructor(scene,signals,speed,car,delay){
         this.scene = scene;
         this.signal;
         this.signals = signals;
         this.car = car;
         this.speed = speed;
+        this.delay = delay;
         this.tween;
         this.newIteration();
     }
@@ -157,10 +162,11 @@ class TweenSignals {
                 //Añadir animacion de que cambió la velocidad
             }
         })
-        .delay(5000)
+        .delay(this.delay)
         .onComplete(() => {
             tweenDecoration.changeSpeed(this.speed);
             tweenCarEnemy.changeSpeed(this.speed);
+            //tweenCarEnemy2.changeSpeed(this.speed);
             this.scene.remove(this.signal);
             this.newIteration();
         }).start();
