@@ -26,7 +26,7 @@ Los objetos se mueven por el eje z, se crean al final de la carretera (en frente
 
 Hay tres tipos de agrupaciones de objetos que se van creando:
 - La decoración: Estos objetos aparecen de forma aleatoria, van apareciendo cada vez que un objeto desaparece.
-- Las señales de límite de velocidad: Las señales son también aleatorias y salen cada 500 fotogramas o puntos.
+- Las señales de límite de velocidad: Las señales son también aleatorias y salen cada 5 segundos (programados con un delay con Tween.js).
 - Las furgonetas: Estas van saliendo al igual que la decoración, en cada fotograma calcula si hay colisión entre la furgoneta y el vehículo nuestro, si es el caso, el juego se detiene. Consigo conocer la colisión mediante los objetos Box3 (caja) de Three.js.
 
 Para la decoración, las señales y las furgonetas que van saliendo las desplazo con la librería TWEEN de Three.js. Este motor de animación me permite desplazar de objetos de manera sencilla, para usarlo he implementado una función y unas clases que se encuentran en tweenAux.js.
