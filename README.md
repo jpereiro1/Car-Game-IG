@@ -29,6 +29,8 @@ Hay tres tipos de agrupaciones de objetos que se van creando:
 - Las señales de límite de velocidad: Las señales son también aleatorias y salen cada 500 fotogramas o puntos.
 - Las furgonetas: Estas van saliendo al igual que la decoración, en cada fotograma calcula si hay colisión entre la furgoneta y el vehículo nuestro, si es el caso, el juego se detiene. Consigo conocer la colisión mediante los objetos Box3 (caja) de Three.js.
 
+Para la decoración, las señales y las furgonetas que van saliendo las desplazo con la librería TWEEN de Three.js. Este motor de animación me permite desplazar de objetos de manera sencilla, para usarlo he implementado una función y unas clases que se encuentran en tweenAux.js.
+
 A los vehículos (el nuestro y la furgoneta), le añadimos un pequeño movimiento en el eje Y para simular la circulación del objeto. Esto se consigue con una función sinusoidal. 
 
 El vehículo principal se podrá mover de izquierda a derecha sin salirse de la carretera, de esta manera conseguirá esquivar la furgoneta.
