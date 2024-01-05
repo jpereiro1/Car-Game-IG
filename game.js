@@ -2,8 +2,8 @@ import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js'
 import Stats from 'three/examples/jsm/libs/stats.module'
+import { startTween, isEndGame, getCars, updateTween } from './js/tweenAux.js';
 import { addListeners, getMovementCar  } from './js/eventListeners.js';
-import TWEEN from 'three/examples/jsm/libs/tween.module.js';
 
 
 
@@ -21,10 +21,9 @@ let hemiLight, direcLight;
 let roadLines = [];
 let signals = [];
 let decorationWithMovement = [];
-let actualDecoration,actualSignal;
 let modelsLoaded = false;
 
-let speed = 0.2;
+let speed = 0.4;
 
 
 document.getElementById('startGame').addEventListener('click',startAnimation);
@@ -49,6 +48,7 @@ function startAnimation(){
     car = cars.get(cocheSeleccionado);
     scene.add(car);
 
+
     if(tiempoSeleccionado=="night") makeNight();
     
 
@@ -58,10 +58,8 @@ function startAnimation(){
 
     document.body.appendChild(renderer.domElement);
 
-    //setInterval(throwRandomSignal,10000);
-
+    startTween(scene,car,carEnemy,decorationWithMovement,signals,speed);
     requestAnimationFrame(animate);
-    startTween();
 
 }
 
@@ -97,8 +95,17 @@ function makeNight(){
     document.getElementById("score").style.color = 'white';
 
     //Encendemos las luces del coche
-    car.children[1].intensity = 0.5;
-    car.children[2].intensity = 0.5;
+    car.children[1].intensity = 0.8;
+    car.children[2].intensity = 0.8;
+
+    signals.forEach(signal => {
+        var streetlightClone = streetlight.clone();
+        streetlightClone.children[0].children[0].target = signal.children[0];
+        streetlightClone.children[1].children[0].target = signal.children[1];
+        signal.add(streetlightClone);
+        
+    });
+    
 }
 
 init();
@@ -191,18 +198,13 @@ async function init(){
             loadSignals(loader, './public/100_speed_sign.fbx'),
             loadStreetLight(loader, './public/streetlight.fbx',[0,+Math.PI/2,0] , new THREE.Vector3(1.5, 0, -0.5),true,new THREE.SpotLight(0xffffff,100))
         ]);
+        carEnemy = cars.get("pickup");
         modelsLoaded = true;
-        initTween();
         console.log("Models loaded successfully");
     } catch (error) {
         console.error("Error loading models:", error);
     }
-    
-    console.log(decorationWithMovement);
 
-    
-
-    
 }
 
 function loadCar(loader,path,id){
@@ -279,15 +281,15 @@ function loadStreetLight(loader, path){
             object.scale.set(0.3, 0.3, 0.3);
             object.castShadow = true;
             object.receiveShadow = false;
-            object.position.copy(new THREE.Vector3(-1.8, 0, 0.5));
+            object.position.copy(new THREE.Vector3(-1.8, 0, 1));
             object.rotation.set(0,+Math.PI,0);
 
             let light = new THREE.SpotLight(0xffffff);
             light.position.set(-1,7.4,0);
             light.castShadow = true;
-            light.decay = 1;
-            light.penumbra = 0.1;
-            light.intensity = 0.3;
+            light.decay = 0.9;
+            light.penumbra = 1;
+            light.intensity = 2;
 
             /*const spotLightHelper = new THREE.SpotLightHelper( light );
             scene.add( spotLightHelper );*/
@@ -339,88 +341,14 @@ function loadModel(loader, path, scale,rotation, position,duplicate) {
     });
 }
 
-var tweenDecoration;
-function initTween(){
 
-    /*actualDecoration = decorationWithMovement[0];
-    actualDecoration.position.z = -45;
-
-    function updateDecoration() {
-        scene.remove(actualDecoration);
-        actualDecoration = decorationWithMovement[getRandomInt(0, decorationWithMovement.length)];
-        actualDecoration.position.z = -45;
-        console.log(actualDecoration);
-        scene.add(actualDecoration);
-        tweenDecoration.stop();
-        // Actualizar el destino del Tween con la nueva posición
-        tweenDecoration.to({z: limitViewZ}, (1/speed)*1000);
-        tweenDecoration.start();
-    }
-
-    tweenDecoration = new TWEEN.Tween(actualDecoration.position)
-        .onStart(() => {
-            scene.add(actualDecoration);
-        })
-        .onEveryStart(() => {
-            updateDecoration();
-        })
-        .onComplete(() => {
-            scene.remove(actualDecoration);
-            updateDecoration(); // Actualizar para la próxima iteración
-        }).dynamic(true)
-        .repeat(Infinity);
-
-    updateDecoration();*/
-    
-    
-    
-    /*actualDecoration = decorationWithMovement[0];
-    
-    actualDecoration.position.z = -45;
-    tweenDecoration = new TWEEN.Tween(actualDecoration.position)
-        .to({z:limitViewZ},(1/speed)*1000)
-        .onStart(() => {
-            scene.add(actualDecoration);
-        })
-        .onEveryStart(() => {
-            scene.remove(actualDecoration);
-            actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length)];
-            actualDecoration.position.z = -45;
-            console.log(actualDecoration);
-            scene.add(actualDecoration);
-        })
-        .onComplete(() => {
-            //scene.remove(actualDecoration);
-            
-            console.log(actualDecoration);
-            
-        })
-        .repeat(Infinity)
-        ;*/
-
-    /*if(actualDecoration?.parent !== scene){
-        actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length+1)];
-        try{
-            actualDecoration.position.z = -45;
-            scene.add(actualDecoration);
-            
-        }catch(err){
-            console.log("Error en decoracion");
-        }
-        
-    }*/
-}
-
-function startTween(){
-    //tweenDecoration.start();
-}
 
 
 function initDecoration(){
     
     //Background
     scene.background = new THREE.Color(0x87CEEB);
-	//scene.fog = new THREE.Fog( scene.background, 20, 50 );
+	scene.fog = new THREE.Fog( scene.background, 20, 50 );
 
     let geometry, material;
 
@@ -488,28 +416,22 @@ let maxLimitCarX = 0.5;
 
 
 
-function throwRandomSignal(){
-    actualSignal = signals[getRandomInt(0,signals.length)];
-    actualSignal.position.z = -45;
-    if(isNight){
-        //console.log(streetlight);
-        streetlight.children[0].children[0].target = actualSignal.children[0];
-        streetlight.children[1].children[0].target = actualSignal.children[1];
-        actualSignal.add(streetlight);
-    }
-    scene.add(actualSignal);
-}
 
 
 
 function animate(){
     
-    if(!endedGame) requestAnimationFrame(animate);
+    !endedGame ? requestAnimationFrame(animate) : endGame();
+
+    var carsCollision = getCars();
+    if(carsCollision[0]!=undefined && carsCollision[1]!=undefined){
+        if(detectCollision(carsCollision[0],carsCollision[1])) endedGame = true;
+    }
+    
 
     score += 1;
     document.getElementById("score").innerHTML = score;
 
-    if(score%500==0 && actualSignal==null) throwRandomSignal();
 
     stats.update();
 
@@ -522,34 +444,6 @@ function animate(){
     });
 
 
-    if(carEnemy?.parent !== scene){
-        carEnemy = cars.get("pickup");
-        try{
-            carEnemy.position.z = -50;
-            getRandomInt(0,2)>0 ? carEnemy.position.x = 0.5 : carEnemy.position.x = -0.5;
-            scene.add(carEnemy);
-            new TWEEN.Tween(carEnemy.position)
-                .to(
-                    {z:limitViewZ+1},(1/speed)*1000
-                )
-                .onUpdate(() => {
-                    carMovementY(carEnemy);
-                    if(detectCollision(car,carEnemy)) endGame();
-                })
-                .onComplete(() => {
-                    scene.remove(carEnemy);
-                    carEnemy = null;
-                })
-                .start();
-            
-        }catch(err){
-            console.log("Error en carEnemy");
-        }
-    }
-
-
-
-
     carMovementY(car);
     let movementCar = getMovementCar();
     if(movementCar <0){
@@ -559,47 +453,9 @@ function animate(){
     }
     
 
-    //Para la señal
-    if(actualSignal!=null){
-        actualSignal.position.z += speed;
-        if(actualSignal.position.z > car.position.z){
-            
-            if(actualSignal.name.includes("40_speed_sign")) speed = 0.2;
-            if(actualSignal.name.includes("60_speed_sign")) speed = 0.4;
-            if(actualSignal.name.includes("80_speed_sign")) speed = 0.6;
-            if(actualSignal.name.includes("100_speed_sign")) speed = 0.8;
-
-            //Añadir animacion de que cambió la velocidad
-        }
-
-        if(actualSignal.position.z > limitViewZ){
-            scene.remove(actualSignal);
-            actualSignal = null;
-        }
-    }
-
-
-
-
-    if(actualDecoration?.parent !== scene){
-        actualDecoration = decorationWithMovement[getRandomInt(0,decorationWithMovement.length+1)];
-        try{
-            actualDecoration.position.z = -45;
-            scene.add(actualDecoration);
-            new TWEEN.Tween(actualDecoration.position)
-            .to({z:limitViewZ},(1/speed)*1000)
-            .onComplete(() => {
-                scene.remove(actualDecoration);
-                actualDecoration = null;
-            }).dynamic(true)
-            .start();
-        }catch(err){
-            console.log(err);
-        } 
-    }
-
     renderer.render(scene, camera);
-    TWEEN.update();
+    
+    updateTween();
 }
 
 
@@ -622,11 +478,6 @@ function carMovementY(object) {
 
 
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-}
 
 // Función para detectar colisión entre dos objetos 3D
 function detectCollision(object1, object2) {
